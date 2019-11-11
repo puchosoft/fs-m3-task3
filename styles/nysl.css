@@ -1,0 +1,21 @@
+html {
+  height:-webkit-fill-available;  
+}
+
+body {
+  height:inherit;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 13px;
+}
+
+footer {
+  height:10%;
+}
+
+.bg-vc {
+    background-color:LightGreen;
+}
+
+.bg-vo {
+    background-color:DarkGreen;
+}

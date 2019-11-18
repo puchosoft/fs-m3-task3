@@ -1,22 +1,20 @@
-dataHeader = {
-  "visible"   : false
-};
 
-dataDetail = {
-  "visible"   : false,
-  "date"      : '20/10',
-  "time"      : '04:15 am',
-  "team1Id"   : 1,
-  "team1Name" : 'A',
-  "team2Id"   : 1,
-  "team2Name" : 'B',
-  "site"      : 'Canchita',
-  "domicile"  : 'Corrientes 348',
-  "map"       : ''
-};
-
-dataList = {
-  "visible"  : true,
+data = {
+  "portrait"        : false,
+  "listVisible"     : true,
+  "listMode"        : true,
+  "backVisible"     : false,
+  "detailVisible"   : false,
+  "detailDate"      : '20/10',
+  "detailTime"      : '04:15 am',
+  "detailTeam1Id"   : 1,
+  "detailTeam1Name" : 'A',
+  "detailTeam2Id"   : 1,
+  "detailTeam2Name" : 'B',
+  "detailSite"      : 'Canchita',
+  "detailDomicile"  : 'Corrientes 348',
+  "detailMap"       : '',
+  
   "months"    : [
     { "name": 'September',
       "games":  [

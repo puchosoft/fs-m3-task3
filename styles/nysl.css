@@ -19,3 +19,53 @@ footer {
 .bg-vo {
     background-color:DarkGreen;
 }
+
+@media only screen and (orientation: Landscape) {
+  :root{
+    --vertical:false;
+    --h-cabecera:20vh;
+    --h-cuerpo:80vh;
+    --f-date:5vh;
+    --f-site:5vh;
+    --f-domicile:4vh;
+    --f-team:4vh;
+  }
+}
+
+@media only screen and (orientation: Portrait) {
+  :root{
+    --vertical:true;
+    --h-cabecera:10vh;
+    --h-cuerpo:90vh;
+    --f-date:7vw;
+    --f-site:6vw;
+    --f-domicile:5vw;
+    --f-team:5vw;
+  }
+}
+
+.h-cabecera {
+  height:var(--h-cabecera);
+  max-height:var(--h-cabecera);
+}
+
+.h-cuerpo {
+  height:var(--h-cuerpo);
+  max-height:var(--h-cuerpo);
+}
+
+.f-date{
+  font-size:var(--f-date);
+}
+
+.f-site{
+  font-size:var(--f-site);
+}
+
+.f-domicile{
+  font-size:var(--f-domicile);
+}
+
+.f-team{
+  font-size:var(--f-team);
+}

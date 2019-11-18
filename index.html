@@ -22,25 +22,38 @@
   </head>
 
   <body>
-    <div class="container sticky-top" id="header">
-      <div class="row bg-vo rounded-lg">
-        <div class="col-2">
-          <img class="img-fluid py-3 w-75" src="img/pelota.gif" alt="">
+    <!-- Pantalla pricipal -->
+    <div id='mainScreen' class='container-fluid vh-100 overflow-hidden'>
+      
+      <!-- Cabecera -->
+      <div class="row bg-vo rounded-lg h-cabecera">
+        
+        <!-- Logo animado -->
+        <div class="col-2 h-75 align-items-center my-auto px-2">
+          <img class="img-fluid h-100" src="img/pelota.gif" alt="">
         </div>
+        
+        <!-- Banner -->
         <div class="col-8 align-items-center my-auto">
           <h1 class="w-auto text-light text-center my-auto">NYSL</h1>
         </div>
-        <div class="col-2 align-items-center my-auto mx-auto">
-          <button v-if="visible" @click="back" class="btn btn-light"><i class="fa fa-long-arrow-left"></i></button>
+        
+        <!-- Boton "BACK" -->
+        <div class="col-2 align-items-center my-auto px-3">
+          <button v-if="backVisible" @click="back" class="btn btn-light text-center mx-auto px-2 my-auto">
+            <i class="fa fa-long-arrow-left"></i>
+          </button>
         </div>
+        
       </div>
-    </div>
 
-    <div v-if='visible' class="container my-2 px-0" id='gameList'>
-      <div class="row align-items-center mx-0">
-        <div class="col-12 px-0">
-          <div class="accordion" id="acordeon">
-            <div  v-for='month in months' class="card  bg-secondary">
+      <!-- Cuerpo principal -->
+      <div class="row align-items-top h-cuerpo">
+        
+        <!-- Lista acordeon de informacion de partidos -->
+        <div v-if='listVisible' class="px-0 h-100" v-bind:class="{'col-12':portrait, 'col-6':!portrait}">
+          <div class="accordion h-100 overflow-auto" id="acordeon">
+            <div  v-for='month in months' class="card bg-secondary">
               <div class="card-header border-bottom-0 mx-auto">
                 <h3 class="mb-0">
                   <a v-bind:href=("#"+month.name) data-toggle="collapse" class="btn-lg btn-success">{{month.name}}</a>
@@ -48,44 +61,60 @@
               </div>
               <div v-bind:id=month.name class="collapse bg-light" data-parent="#acordeon">
                 <div class="card-body">
-                    <table class='table table-bordered table-hover'>
-                        <tr v-for='game in month.games' @click="viewGame(game)">
-                          <td>{{game.date}}</td>
-                          <td>{{game.time}}</td>
-                          <td>{{teams[game.team1 - 1].name +' vs '+teams[game.team2 - 1].name}}</td>
-                          <td>{{locations[game.location].name}}</td>
-                        </tr>
-                    </table>
+                  <table class='table table-bordered table-hover'>
+                    <tr v-for='game in month.games' @click="viewGame(game)">
+                      <td>{{game.date}}</td>
+                      <td>{{game.time}}</td>
+                      <td>{{teams[game.team1 - 1].name +' vs '+teams[game.team2 - 1].name}}</td>
+                      <td v-if='portrait'>{{locations[game.location].name}}</td>
+                    </tr>
+                  </table>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-    
-    <div v-if='visible' class="container my-2" id='gameDetail'>
-      <div class="row align-items-center border border-dark bg-vc rounded-lg">
-        <div class="col-5 align-items-center" align="center">
-          <img class="img-fluid my-1 w-25" v-bind:src=("img/escudo"+team1Id+".png") alt="" height=80% width=60%>
-          <h5 class="my-2">{{team1Name}}</h5>
+        
+        <!-- Detalle de un partido -->
+        <div v-if='detailVisible' class='h-100' v-bind:class="{'col-12':portrait, 'col-6':!portrait}">
+        
+          <!-- Encabezado -->
+          <div class="row border border-dark bg-vc rounded-lg h-25 py-0">
+          
+            <!-- Escudos y nombres del 1º equipo -->
+            <div class="col-5 h-75 w-100 my-auto align-items-center" align="center">
+              <img class="img-fluid my-0 h-75" v-bind:src=("img/escudo"+detailTeam1Id+".png") alt="" height=100% >
+              <h6 class="f-team h-auto mt-1">{{detailTeam1Name}}</h6>
+            </div>
+            
+            <div class="col-2 h-auto w-100 my-auto">
+              <h2 class='f-team text-center m-0'>VS</h2>
+            </div>
+            
+            <!-- Escudos y nombre del 2º equipo -->
+            <div class="col-5 h-75 w-100 my-auto" align="center">
+              <img class="img-fluid my-0 h-75" v-bind:src=("img/escudo"+detailTeam2Id+".png") alt="" height=100%>
+              <h6 class="f-team h-auto mt-1">{{detailTeam2Name}}</h6>
+            </div>
+            
+          </div>
+          
+          <!-- Fecha, horario y ubicacion -->
+          <div class="row align-items-center border border-dark rounded-lg py-0 h-25">
+            <h6 class="f-date d-block mx-auto my-0 w-100 text-center">{{detailDate+" - "+detailTime}}</h6>
+            <h6 class="f-site d-block mx-auto my-0 w-100 text-center font-weight-bold">{{detailSite}}</h6>
+            <h6 class="f-domicile d-block mx-auto my-0 w-100 text-center">{{detailDomicile}}</h6>
+          </div>
+          
+          <!-- Mapa de ubicacion -->
+          <div class="row align-items-center border border-dark rounded-lg h-50">
+            <iframe class="p-2" v-bind:src=detailMap width="100%" height="100%" style="border:0" allowfullscreen></iframe>
+          </div>
+          
         </div>
-        <div class="col-2" align="center">
-        <h2>VS</h2>
-        </div>
-        <div class="col-5 align-items-center" align="center">
-          <img class="img-fluid my-1 w-25" v-bind:src=("img/escudo"+team2Id+".png") alt="" height=80% width=60%>
-          <h5 class="my-2">{{team2Name}}</h5>
-        </div>
+        
       </div>
-      <div class="row align-items-center border border-dark rounded-lg my-2 py-2">
-        <h4 class="d-block mx-auto my-1 w-100 text-center">{{date+" - "+time}}</h4><br>
-        <h5 class="d-block mx-auto my-1 w-100 text-center font-weight-bold">{{site}}</h5>
-        <h6 class="d-block mx-auto my-1 w-100 text-center">{{domicile}}</h6>
-      </div>
-      <div class="row align-items-center border border-dark rounded-lg py-2">
-        <iframe class="mx-auto" v-bind:src=map width="400" height="300" style="border:0" allowfullscreen></iframe>
-      </div>
+      
     </div>
 
     <!-- update the version number as needed -->
